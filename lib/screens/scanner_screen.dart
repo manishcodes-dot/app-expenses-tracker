@@ -63,14 +63,41 @@ class _ScannerScreenState extends State<ScannerScreen> {
             child: _isScanMode ? _buildScannerBody() : _buildManualFormBody(),
           ),
 
-          // Bottom Mode Switcher Pill ("Scan" | "Manually")
+          // Bottom Controls Container (Shutter Button + Mode Switcher Pill)
           Positioned(
             left: 0,
             right: 0,
-            bottom: 24,
+            bottom: 20,
             child: SafeArea(
-              child: Center(
-                child: _buildModeTogglePill(),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Camera Shutter Button (only active in Scan Mode)
+                  if (_isScanMode) ...[
+                    Material(
+                      color: AppColors.primary,
+                      elevation: 8,
+                      shape: const CircleBorder(
+                        side: BorderSide(color: Colors.white, width: 4),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const SizedBox(
+                          width: 64,
+                          height: 64,
+                          child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: 28),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+
+                  // Mode Switcher Pill ("Scan" | "Manually")
+                  _buildModeTogglePill(),
+                ],
               ),
             ),
           ),
@@ -103,32 +130,10 @@ class _ScannerScreenState extends State<ScannerScreen> {
 
         // Instructions
         const Positioned(
-          bottom: 160,
+          bottom: 180,
           child: Text(
             'Align receipt within frame',
             style: TextStyle(color: Colors.white70, fontSize: 14, fontWeight: FontWeight.w500),
-          ),
-        ),
-
-        // Shutter Button
-        Positioned(
-          bottom: 88,
-          child: Material(
-            color: AppColors.primary,
-            shape: const CircleBorder(
-              side: BorderSide(color: Colors.white, width: 4),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: const SizedBox(
-                width: 64,
-                height: 64,
-                child: Icon(Icons.camera_alt_rounded, color: Colors.white, size: 28),
-              ),
-            ),
           ),
         ),
       ],

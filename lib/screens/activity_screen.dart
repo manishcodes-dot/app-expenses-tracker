@@ -106,10 +106,20 @@ class ActivityScreen extends StatelessWidget {
         ),
         child: Icon(icon, color: iconColor),
       ),
-      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+      title: Text(
+        title,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+      ),
       subtitle: Padding(
         padding: const EdgeInsets.only(top: 4.0),
-        child: Text(subtitle, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+        child: Text(
+          subtitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 13, color: AppColors.textSecondary),
+        ),
       ),
       trailing: Text(
         amount,
@@ -202,17 +212,22 @@ class _FinancialLineChartCardState extends State<FinancialLineChartCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      selectedPoint != null ? '${selectedPoint.day} Overview' : 'Weekly Overview',
-                      style: const TextStyle(color: AppColors.textSecondary, fontSize: 13, fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(height: 2),
-                    const Text('Cash Flow', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        selectedPoint != null ? '${selectedPoint.day} Overview' : 'Weekly Overview',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(color: AppColors.textSecondary, fontSize: 13, fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 2),
+                      const Text('Cash Flow', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                    ],
+                  ),
                 ),
+                const SizedBox(width: 8),
                 GestureDetector(
                   onTap: () {
                     setState(() {
@@ -222,7 +237,7 @@ class _FinancialLineChartCardState extends State<FinancialLineChartCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.primaryLight.withOpacity(0.5),
+                      color: AppColors.primaryLight.withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -272,13 +287,28 @@ class _FinancialLineChartCardState extends State<FinancialLineChartCard> {
                             child: const Icon(Icons.arrow_downward_rounded, color: AppColors.success, size: 16),
                           ),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(depositLabel, style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
-                              const SizedBox(height: 2),
-                              Text('\$${displayDeposit.toStringAsFixed(2)}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.success)),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  depositLabel,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
+                                ),
+                                const SizedBox(height: 2),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    '\$${displayDeposit.toStringAsFixed(2)}',
+                                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.success),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -320,13 +350,28 @@ class _FinancialLineChartCardState extends State<FinancialLineChartCard> {
                             child: const Icon(Icons.arrow_upward_rounded, color: AppColors.danger, size: 16),
                           ),
                           const SizedBox(width: 10),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(withdrawLabel, style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
-                              const SizedBox(height: 2),
-                              Text('\$${displayWithdraw.toStringAsFixed(2)}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.danger)),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  withdrawLabel,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 11, color: AppColors.textSecondary, fontWeight: FontWeight.w500),
+                                ),
+                                const SizedBox(height: 2),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    '\$${displayWithdraw.toStringAsFixed(2)}',
+                                    style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppColors.danger),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
