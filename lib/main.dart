@@ -6,7 +6,6 @@ import 'screens/groups_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/activity_screen.dart';
 import 'screens/scanner_screen.dart';
-import 'screens/add_expense_screen.dart';
 
 void main() {
   runApp(const ProviderScope(child: SplitEaseApp()));
@@ -42,7 +41,6 @@ class SplitEaseApp extends StatelessWidget {
           primary: AppColors.primary,
           secondary: AppColors.secondary,
           surface: AppColors.surface,
-          background: AppColors.background,
           error: AppColors.danger,
         ),
         scaffoldBackgroundColor: AppColors.background,
@@ -195,7 +193,14 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                     shape: const CircleBorder(),
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
-                      onTap: () => _showAddExpenseOptionsModal(context),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ScannerScreen(),
+                          ),
+                        );
+                      },
                       child: const Padding(
                         padding: EdgeInsets.all(10),
                         child: Icon(
@@ -214,134 +219,6 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  void _showAddExpenseOptionsModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: AppColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      builder: (BuildContext modalContext) {
-        return SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Add Expense',
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.close_rounded, color: AppColors.textSecondary),
-                      onPressed: () => Navigator.pop(modalContext),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Choose how you want to add this expense',
-                  style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
-                ),
-                const SizedBox(height: 20),
-
-                // Option 1: Scan Receipt
-                Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  color: AppColors.background,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: const BorderSide(color: AppColors.border),
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    leading: Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryLight,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(Icons.qr_code_scanner_rounded, color: AppColors.primary),
-                    ),
-                    title: const Text(
-                      'Scan Receipt',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    subtitle: const Text(
-                      'Automatically scan total and items from receipt',
-                      style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                    ),
-                    trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
-                    onTap: () {
-                      Navigator.pop(modalContext);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ScannerScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 12),
-
-                // Option 2: Add Manually
-                Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  color: AppColors.background,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                    side: const BorderSide(color: AppColors.border),
-                  ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    leading: Container(
-                      width: 48,
-                      height: 48,
-                      decoration: BoxDecoration(
-                        color: AppColors.secondary.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: const Icon(Icons.edit_note_rounded, color: AppColors.secondary),
-                    ),
-                    title: const Text(
-                      'Add Manually',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    subtitle: const Text(
-                      'Fill in amount, title, and member splits manually',
-                      style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                    ),
-                    trailing: const Icon(Icons.chevron_right_rounded, color: AppColors.textSecondary),
-                    onTap: () {
-                      Navigator.pop(modalContext);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const AddExpenseScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(height: 12),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -629,51 +506,6 @@ class _BalanceItem extends StatelessWidget {
   }
 }
 
-class _QuickActionButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  final bool isSecondary;
-
-  const _QuickActionButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.isSecondary = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        decoration: BoxDecoration(
-          color: isSecondary
-              ? AppColors.surface
-              : AppColors.primaryLight.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(16),
-          border: isSecondary ? Border.all(color: AppColors.border) : null,
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: AppColors.primary),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                color: AppColors.textPrimary,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class AnimatedSearchBar extends StatefulWidget {
   final Widget defaultTitle;
   final String hintText;
@@ -788,7 +620,11 @@ class _AnimatedListItemState extends State<AnimatedListItem> with SingleTickerPr
     
     // Stagger animation based on index
     Future.delayed(Duration(milliseconds: (widget.index * 100).clamp(0, 1000)), () {
-      if (mounted) _controller.forward();
+      if (mounted) {
+        try {
+          _controller.forward();
+        } catch (_) {}
+      }
     });
   }
 

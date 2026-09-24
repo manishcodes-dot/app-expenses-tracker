@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                     trailing: Switch(
                       value: false,
                       onChanged: (val) {},
-                      activeColor: AppColors.primary,
+                      activeThumbColor: AppColors.primary,
                     ),
                   ),
                   const Divider(height: 1, indent: 56),

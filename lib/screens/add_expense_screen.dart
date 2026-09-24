@@ -77,7 +77,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
 
             // Paid By
             DropdownButtonFormField<String>(
-              value: 'You',
+              initialValue: 'You',
               decoration: const InputDecoration(
                 labelText: 'Paid By',
                 prefixIcon: Icon(Icons.person_rounded),
