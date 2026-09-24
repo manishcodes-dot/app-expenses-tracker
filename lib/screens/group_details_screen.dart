@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import '../main.dart'; // For AppColors temporarily
+import 'add_expense_screen.dart';
+import 'settlement_screen.dart';
 
 class GroupDetailsScreen extends StatelessWidget {
+
   const GroupDetailsScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +77,14 @@ class GroupDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SettlementScreen(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.success,
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -124,7 +135,14 @@ class GroupDetailsScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddExpenseScreen(),
+            ),
+          );
+        },
         icon: const Icon(Icons.add_rounded),
         label: const Text('Add Expense'),
       ),

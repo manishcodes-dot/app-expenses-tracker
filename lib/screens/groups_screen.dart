@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../main.dart'; // For AppColors
+import 'group_details_screen.dart';
 
 class GroupsScreen extends StatelessWidget {
   const GroupsScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,12 @@ class GroupsScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
         onTap: () {
-          // Navigate to group details
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const GroupDetailsScreen(),
+            ),
+          );
         },
         borderRadius: BorderRadius.circular(18),
         child: Padding(
